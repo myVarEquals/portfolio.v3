@@ -1,1 +1,1 @@
-"use strict";var hello="yo",world="planet";
+"use strict";var hello="yo",world="planet",name="roger",age="28",weather="cloudy";

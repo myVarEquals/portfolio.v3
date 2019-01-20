@@ -1,57 +1,45 @@
 const { series, src, dest, watch } = require('gulp');
-// const imagemin = require('gulp-imagemin');
+const gulpImagemin = require('gulp-imagemin');
 const gulpSass = require('gulp-sass');
 gulpSass.compiler = require('node-sass');
-// const uglify = require('gulp-uglify');
-// const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
+const gulpBabel = require('gulp-babel');
 // //const watch = require('gulp-watch');
 
 // HTML
-function html(cb) {
+const html = () => (
     src('./src/*.html')
         .pipe(dest('dist'))
-    cb();
-}
-// Deprecated HTML
-// gulp.task('html', () => 
-//     gulp.src('./src/*.html')
-//         .pipe(gulp.dest('dist'))
-// );
+);
 
 // Sass
-function sass(cb) {
-    src('.src/sass/*')
+const sass = () => (
+    src('./src/sass/*')
         .pipe(gulpSass())
         .pipe(dest('./dist/css'))
-    cb();
+ );
+// Babel
+const babel = () => (
+    src('./src/js/*.es6')
+        .pipe(gulpBabel({
+            presets: ['@babel/env']
+        }))
+        .pipe(uglify())
+        .pipe(dest('./dist/js'))
+);
+// Image Minify
+const imagemin = () => (
+    src('./src/assets/images/*')
+        .pipe(gulpImagemin())
+        .pipe(dest('./dist/assets/images'))
+);
+
+function watching() {
+    watch(['./src/*.html'], html)
+    watch(['./src/sass/*.sass'], sass)
+    watch(['./src/js/*.es6'], babel)
+    watch(['./src/assets/images/*'], imagemin)
 }
-
-// gulp.task('sass', () =>
-//     gulp.src('./src/sass/*.sass')
-//         .pipe(sass().on('error', sass.logError))
-//         .pipe(gulp.dest('./dist/css'))
-// );
-
-
-// gulp.task('babel', () =>
-//     gulp.src('./src/js/*.es6')
-//         .pipe(babel({
-//             presets: ['@babel/env']
-//         }))
-//         .pipe(gulp.dest('./src/js'))
-// );
-
-// gulp.task('uglifyJS', () =>
-//     gulp.src('./src/js/*.js')
-//         .pipe(uglify())
-//         .pipe(gulp.dest('dist/js'))
-// );
-
-// gulp.task('imagemin', () => 
-//     gulp.src('./src/assets/images/*')
-//         .pipe(imagemin())
-//         .pipe(gulp.dest('./dist/assets/images'))
-// );
 
 // gulp.task('watch', function() {
 //         gulp.watch('./src/*.html', ['html']);
@@ -60,4 +48,7 @@ function sass(cb) {
 //         gulp.watch('./src/assets/images/*', ['imagemin']);
 // });
 
-exports.default = series(html, sass);
+// exports.default = series(html, sass, babel, imagemin);
+exports.default = series(watching);
+
+
