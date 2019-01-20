@@ -1,1 +1,1 @@
-console.log("hi"),console.log("bye");
+"use strict";var hello="yo",world="planet";
