@@ -4,7 +4,6 @@ const gulpSass = require('gulp-sass');
 gulpSass.compiler = require('node-sass');
 const uglify = require('gulp-uglify');
 const gulpBabel = require('gulp-babel');
-// //const watch = require('gulp-watch');
 
 // HTML
 const html = () => (
@@ -35,18 +34,11 @@ const imagemin = () => (
 );
 
 function watching() {
-    watch(['./src/*.html'], html)
-    watch(['./src/sass/*.sass'], sass)
-    watch(['./src/js/*.es6'], babel)
-    watch(['./src/assets/images/*'], imagemin)
+    watch(['./src/*.html'], html);
+    watch(['./src/sass/*.sass'], sass);
+    watch(['./src/js/*.es6'], babel);
+    watch(['./src/assets/images/*'], imagemin);
 }
-
-// gulp.task('watch', function() {
-//         gulp.watch('./src/*.html', ['html']);
-//         gulp.watch('./src/sass/*.sass', ['sass']);
-//         gulp.watch('./src/js/*.es6', ['babel', 'uglifyJS']);
-//         gulp.watch('./src/assets/images/*', ['imagemin']);
-// });
 
 // exports.default = series(html, sass, babel, imagemin);
 exports.default = series(watching);
