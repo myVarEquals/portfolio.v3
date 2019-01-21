@@ -10,5 +10,4 @@ const name = 'roger';
 
 const age = '28';
 
-
 const weather = 'cloudy';
