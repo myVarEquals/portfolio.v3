@@ -1,6 +1,7 @@
 const { series, src, dest, watch } = require('gulp');
 const gulpImagemin = require('gulp-imagemin');
 const gulpSass = require('gulp-sass');
+const cleanCSS = require('gulp-clean-css');
 gulpSass.compiler = require('node-sass');
 const uglify = require('gulp-uglify');
 const gulpBabel = require('gulp-babel');
@@ -17,8 +18,9 @@ const html = (done) => {
 
 // Sass
 const sass = (done) => {
-    src('./src/sass/*')
+    src(['node_modules/bootstrap/dist/css/bootstrap.min.css','./src/scss/*'])
         .pipe(gulpSass())
+        .pipe(cleanCSS())
         .pipe(dest('./dist/css'));    
             
     browserSync.reload();
@@ -26,7 +28,7 @@ const sass = (done) => {
 }
 // Babel
 const babel = (done) => {
-    src('./src/js/*.es6')
+    src(['./src/js/*.es6'])
         .pipe(gulpBabel({
             presets: ['@babel/env']
         }))
@@ -46,22 +48,27 @@ const imagemin = (done) => {
     done();
 }
 
+const bootstrap = (done) => {
+    src(['node_modules/bootstrap/dist/js/bootstrap.min.js', 'node_modules/jquery/dist/jquery.slim.min.js','node_modules/popper.js/dist/umd/popper.min.js'])
+        .pipe(dest('./dist/js'));
+    done();
+}
+
 function watching() {
 
     browserSync.init({
         browser: "chrome",
         watch: true,
-        server: "./dist"      
-
+        server: "./dist"
     });
 
     watch(['./src/*.html'], html);
-    watch(['./src/sass/*.sass'], sass);
+    watch(['./src/scss/*.scss'], sass);
     watch(['./src/js/*.es6'], babel);
     watch(['./src/assets/images/*'], imagemin);
     
 }
 
-exports.default = watching;
+exports.default = series(bootstrap, watching);
 
 

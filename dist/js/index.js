@@ -1,1 +1,1 @@
-"use strict";var hello="yo",world="planet",name="roger",age="28",weather="cloudy";
+"use strict";var hello="yo",age="28",agee="28";console.log("hello"),console.log("hello"),console.log("hello");

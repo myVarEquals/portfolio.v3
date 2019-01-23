@@ -1,13 +1,8 @@
 const hello = "yo";
 
+const age = "28";
+const agee = "28";
 
-
-const world = "planet";
-
-
-const name = 'roger';
-
-
-const age = '28';
-
-const weather = 'cloudy';
+console.log('hello');
+console.log('hello');
+console.log('hello');
